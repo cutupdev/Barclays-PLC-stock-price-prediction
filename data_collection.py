@@ -7,7 +7,7 @@ def get_stock_data(symbol):
     stock = yf.Ticker(symbol)
     
     today = datetime.today()
-    startdate = today - timedelta(days=5500)
+    startdate = today - timedelta(days=5900)
     yesterday = today - timedelta(days=1)
 
     # Get historical market data for Barclays PLC

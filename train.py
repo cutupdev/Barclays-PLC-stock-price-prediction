@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import csv
 import matplotlib.pyplot as plt
 from tensorflow import keras
 from tensorflow.keras import layers, initializers, regularizers
@@ -62,6 +63,20 @@ volume_mean = volume[:].mean(axis=0)
 volume -= volume_mean
 volume_std_mean = volume[:].std(axis=0)
 volume /= volume_std_mean
+
+# Save calculated values in csv file
+headers = ["open_mean", "open_std", "high_mean", "high_std", "low_mean", "low_std", "close_mean", "close_std", "volume_mean", "volume_std"]
+data = [open_mean, open_std_mean, high_mean, high_std_mean, ]
+
+# Open/Create a new CSV file
+with open('financial_data.csv', mode='w', newline='') as file:
+    writer = csv.writer(file)
+    
+    # Write the header
+    writer.writerow(headers)
+    
+    # Write the data
+    writer.writerow(data)
 
 length = len(open_price[:])
 train_data = np.zeros((length, 4))
