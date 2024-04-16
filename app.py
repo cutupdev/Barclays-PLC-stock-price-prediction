@@ -70,4 +70,4 @@ schedule_thread.start()
 if __name__ == "__main__": 
     
     # Running flask
-    app.run(debug = True, port = 4949) 
+    app.run(debug = True, port = 4444) 

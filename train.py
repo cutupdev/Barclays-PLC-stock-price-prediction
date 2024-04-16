@@ -134,10 +134,10 @@ test_dataset = keras.utils.timeseries_dataset_from_array(
 
 # Model structure
 inputs = keras.Input(shape=(sequence_length, train_data.shape[-1]))
-x = layers.LSTM(64, 
-                recurrent_dropout=0.1, 
-                activation="tanh", 
-                return_sequences = True,)(inputs)
+# x = layers.LSTM(32, 
+#                 recurrent_dropout=0.1, 
+#                 activation="tanh", 
+#                 return_sequences = True,)(inputs)
 x = layers.LSTM(32, 
                 recurrent_dropout=0.1, 
                 activation="tanh", )(inputs)
