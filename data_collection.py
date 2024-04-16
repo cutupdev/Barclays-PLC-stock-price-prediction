@@ -24,8 +24,8 @@ if __name__ == "__main__":
     symbol = 'BARC.L'
     
     # Get Barclays PLC stock data
-    nvidia_data = get_stock_data(symbol)
+    barc_data = get_stock_data(symbol)
 
     # csv_filename = 'barc.csv'
     csv_filename = 'barc.csv'
-    nvidia_data.to_csv(csv_filename)
+    barc_data.to_csv(csv_filename)

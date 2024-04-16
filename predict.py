@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tensorflow import keras
 from datetime import datetime, timedelta
+import csv
 
 
 def predict():
@@ -39,38 +40,44 @@ def predict():
         volume[i] = values[4]                       
         raw_data[i, :] = values[:] 
 
-    # Open price standardization   
-    open_mean = open_price[:].mean(axis=0)
+    # Load saved data
+    with open("financial_data.csv", newline='') as csvfile:
+        mean_std = csv.DictReader(csvfile)
+        for row in mean_std:
+            open_mean = float(row['open_mean'])
+            open_std_mean = float(row['open_std'])
+            high_mean = float(row['high_mean'])
+            high_std_mean = float(row['high_std'])
+            low_mean = float(row['low_mean'])
+            low_std_mean = float(row['low_std'])
+            close_mean = float(row['close_mean'])
+            close_std_mean = float(row['close_std'])
+            volume_mean = float(row['volume_mean'])
+            volume_std_mean = float(row['volume_std'])
+            print("this is value ==>", row['open_mean'], "<== this is value")
+
+    # Open price standardization
     open_price -= open_mean
-    open_std_mean = open_price[:].std(axis=0)
     open_price /= open_std_mean
 
-    # High price standardization 
-    high_mean = high_price[:].mean(axis=0)
+    # High price standardization
     high_price -= high_mean
-    high_std_mean = high_price[:].std(axis=0)
     high_price /= high_std_mean
 
-    # Low price standardization 
-    low_mean = low_price[:].mean(axis=0)
+    # Low price standardization
     low_price -= low_mean
-    low_std_mean = low_price[:].std(axis=0)
     low_price /= low_std_mean
 
-    # Close price standardization 
-    close_mean = close_price[:].mean(axis=0)
+    # Close price standardization
     close_price -= close_mean
-    close_std_mean = close_price[:].std(axis=0)
     close_price /= close_std_mean
 
-    # Volume standardization 
-    volume_mean = volume[:].mean(axis=0)
+    # Volume standardization
     volume -= volume_mean
-    volume_std_mean = volume[:].std(axis=0)
     volume /= volume_std_mean
 
     length = len(high_price[:]) # Total data length
-    input_data = np.zeros((length, 4)) # Input data
+    input_data = np.zeros((length, 5)) # Input data
     target_data = np.zeros(length) # Target data
 
     # Input data generation
@@ -79,6 +86,7 @@ def predict():
         input_data[i, 1] = high_price[i] 
         input_data[i, 2] = low_price[i] 
         input_data[i, 3] = close_price[i]
+        input_data[i, 4] = volume[i]
         target_data[i] = open_price[i]
 
     model = keras.models.load_model("jena_dense.keras") # Model load 
@@ -93,7 +101,7 @@ def predict():
             predict_data = input_data[x-(sequence_length+delay-1):x-(delay-1)]
         else:
             predict_data = input_data[x-(sequence_length+delay-1):]
-        predict_data = predict_data.reshape((1, 10, 4))
+        predict_data = predict_data.reshape((1, 10, 5))
         predict_value = model.predict(predict_data)
         real_predict = predict_value * open_std_mean + open_mean
         predicts[x] = real_predict

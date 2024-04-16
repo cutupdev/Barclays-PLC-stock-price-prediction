@@ -66,7 +66,7 @@ volume /= volume_std_mean
 
 # Save calculated values in csv file
 headers = ["open_mean", "open_std", "high_mean", "high_std", "low_mean", "low_std", "close_mean", "close_std", "volume_mean", "volume_std"]
-data = [open_mean, open_std_mean, high_mean, high_std_mean, ]
+data = [open_mean, open_std_mean, high_mean, high_std_mean, low_mean, low_std_mean, close_mean, close_std_mean, volume_mean, volume_std_mean]
 
 # Open/Create a new CSV file
 with open('financial_data.csv', mode='w', newline='') as file:
@@ -79,7 +79,7 @@ with open('financial_data.csv', mode='w', newline='') as file:
     writer.writerow(data)
 
 length = len(open_price[:])
-train_data = np.zeros((length, 4))
+train_data = np.zeros((length, 5))
 target_data = np.zeros(length)
 
 # Train data generation
@@ -88,7 +88,7 @@ for i, array in enumerate(train_data):
     train_data[i, 1] = high_price[i] 
     train_data[i, 2] = low_price[i] 
     train_data[i, 3] = close_price[i] 
-    # train_data[i, 4] = volume[i] 
+    train_data[i, 4] = volume[i] 
     target_data[i] = open_price[i]
 
 # Dataset generation parameters

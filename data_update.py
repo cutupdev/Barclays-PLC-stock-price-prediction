@@ -1,20 +1,21 @@
 import yfinance as yf
 from datetime import datetime, timedelta
 import pandas as pd
-import schedule
+# import schedule
 # import time
 
 
-def real_time_data_update():
+def real_time_data_update(start_datetime, end_datetime):
 
     # Fetch stock data for Barclays PLC
     stock = yf.Ticker('BARC.L')
 
     today = datetime.today()
     yesterday = today - timedelta(days=1)
+    startday = yesterday - timedelta(days=2)
 
     # Get yesterday stock data
-    data = stock.history(start=yesterday, end=today)
+    data = stock.history(start=start_datetime, end=end_datetime)
 
     file_path = "barc.csv"
 
