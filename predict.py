@@ -102,6 +102,7 @@ def predict():
         else:
             predict_data = input_data[x-(sequence_length+delay-1):]
         predict_data = predict_data.reshape((1, 10, 5))
+        print(predict_data * open_std_mean + open_mean)
         predict_value = model.predict(predict_data)
         real_predict = predict_value * open_std_mean + open_mean
         predicts[x] = real_predict
