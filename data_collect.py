@@ -1,23 +1,38 @@
 import yfinance as yf
 from datetime import datetime, timedelta
 import pandas as pd
-# import schedule
-# import time
+
+symbol = 'BARC.L'
 
 
-def real_time_data_update(start_datetime, end_datetime):
+
+def get_data(symbol, path):
 
     # Fetch stock data for Barclays PLC
-    stock = yf.Ticker('BARC.L')
-
+    stock = yf.Ticker(symbol)
+    
     today = datetime.today()
+    startdate = today - timedelta(days=5900)
     yesterday = today - timedelta(days=1)
-    startday = yesterday - timedelta(days=2)
+
+    # Get historical market data for Barclays PLC
+    data = stock.history(start=startdate, end=yesterday)
+    
+    # Extract relevant information: Open, High, Low, Close, Volume
+    stock_data = data[['Open', 'High', 'Low', 'Close', 'Volume']]
+
+    # File save
+    stock_data.to_csv(path)
+
+
+
+def update(start_datetime, end_datetime, symbol, file_path):
+
+    # Fetch stock data for Barclays PLC
+    stock = yf.Ticker(symbol)
 
     # Get yesterday stock data
     data = stock.history(start=start_datetime, end=end_datetime)
-
-    file_path = "barc.csv"
 
     if data.empty:
         pass
@@ -44,13 +59,3 @@ def real_time_data_update(start_datetime, end_datetime):
         except FileNotFoundError:
             data.to_csv(file_path, mode='w', header=True, index=False)
             print("CSV file created with new data.")
-
-# # real_time_data_update()
-# schedule.every(1).seconds.do(real_time_data_update)
-# schedule.every().day.at("04:00").do(real_time_data_update)
-
-
-# # Start the scheduler
-# while True:
-#     schedule.run_pending()
-#     time.sleep(3600)  # Sleep time
