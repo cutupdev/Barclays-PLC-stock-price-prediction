@@ -6,14 +6,14 @@ import value_scaler
 
 def generate(past, future, target, data_path, std_path):
 
-    open_price, close_price, high_price, low_price, volume = value_scaler.value_scale(data_path, std_path)
+    open_price, high_price, low_price, close_price, volume = value_scaler.value_scale(data_path, std_path)
 
     length = len(open_price[:])
     train_data = np.zeros((length, 5))
     target_data = np.zeros(length)
 
     # Train data generation
-    for i in enumerate(train_data):
+    for i, data in enumerate(train_data):
         train_data[i, 0] = open_price[i]
         train_data[i, 1] = high_price[i] 
         train_data[i, 2] = low_price[i] 
