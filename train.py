@@ -38,17 +38,17 @@ def train(past, future, target, data_path, std_path):
                         validation_data=val_dataset,
                         callbacks=callbacks)
 
-    model = keras.models.load_model("jena_dense.keras") # Load saved model
+    model = keras.models.load_model("models/" + target + ".keras") # Load saved model
 
     print(f"Test MAE: {model.evaluate(test_dataset)[1]:.2f}") # test the performance of the model
 
-    # Model training check
-    loss = history.history["mae"]
-    val_loss = history.history["val_mae"]
-    epochs = range(1, len(loss) + 1)
-    plt.figure()
-    plt.plot(epochs, loss, "bo", label="Training MAE")
-    plt.plot(epochs, val_loss, "b", label="Validation MAE")
-    plt.title("Training and validation MAE")
-    plt.legend()
-    plt.show()
+    # # Model training check
+    # loss = history.history["mae"]
+    # val_loss = history.history["val_mae"]
+    # epochs = range(1, len(loss) + 1)
+    # plt.figure()
+    # plt.plot(epochs, loss, "bo", label="Training MAE")
+    # plt.plot(epochs, val_loss, "b", label="Validation MAE")
+    # plt.title("Training and validation MAE")
+    # plt.legend()
+    # plt.show()

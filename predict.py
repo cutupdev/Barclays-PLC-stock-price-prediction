@@ -6,7 +6,7 @@ import value_scaler
 
 
 
-def predict(model, target, past, future, std_path, data_path):
+def predict(target, past, future, std_path, data_path):
 
     open_price, close_price, high_price, low_price, volume = value_scaler.value_scale(data_path, std_path)
 
@@ -26,7 +26,6 @@ def predict(model, target, past, future, std_path, data_path):
             else:
                 convert_mean = float(row['open_mean'])
                 convert_std = float(row['open_std'])
-            print("this is value ==>", row['open_mean'], "<== this is value")
     
     length = len(high_price[:]) # Total data length
     input_data = np.zeros((length, 5)) # Input data
@@ -48,7 +47,7 @@ def predict(model, target, past, future, std_path, data_path):
         else:
             target_data[i] = open_price[i]
 
-    model = keras.models.load_model() # Model load 
+    model = keras.models.load_model("models/" + target + ".keras") # Model load 
 
     predicts = np.zeros((future,)) # Prediction value
 
@@ -59,7 +58,7 @@ def predict(model, target, past, future, std_path, data_path):
         else:
             predict_data = input_data[x-(past+future-1):]
         predict_data = predict_data.reshape((1, past, future))
-        print(predict_data * convert_std + convert_mean)
+        print(target, "========>", predict_data * convert_std + convert_mean)
         predict_value = model.predict(predict_data)
         real_predict = predict_value * convert_std + convert_mean
         predicts[x] = real_predict

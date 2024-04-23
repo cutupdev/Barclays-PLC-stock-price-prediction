@@ -9,33 +9,99 @@
     <canvas id="myChart" style="width:100%;"></canvas>
 
 <script>
-past = getPast({{data|tojson}})
-future = getFuture({{data|tojson}})
 dates = getDates({{data|tojson}})
 
+open_past = getOpenPast({{data|tojson}})
+open_future = getOpenFuture({{data|tojson}})
+close_past = getClosePast({{data|tojson}})
+close_future = getCloseFuture({{data|tojson}})
+high_past = getHighPast({{data|tojson}})
+high_future = getHighFuture({{data|tojson}})
+low_past = getLowPast({{data|tojson}})
+low_future = getLowFuture({{data|tojson}})
+
 const xValues = dates;
-const pastValue = past;
-const futureValue = future;
+
+const pastOpenValue = open_past;
+const futureOpenValue = open_future;
+const pastCloseValue = close_past;
+const futureCloseValue = close_future;
+const pastHighValue = high_past;
+const futureHighValue = high_future;
+const pastLowValue = low_past;
+const futureLowValue = low_future;
 
 new Chart("myChart", {
   type: "line",
   data: {
     labels: xValues,
     datasets: [{
-      label: 'Past Value',
-      fill: false,
-      lineTension: 0,
-      backgroundColor: "rgba(0,0,255,1.0)",
-      borderColor: "rgba(0,0,255,0.5)",
-      data: pastValue
-    },
-    {
-      label: 'Future Prediction',
+      label: 'Open Price Past Value',
       fill: false,
       lineTension: 0,
       backgroundColor: "rgba(255,0,0,1.0)",
       borderColor: "rgba(255,0,0,0.5)",
-      data: futureValue
+      data: pastOpenValue
+    },
+    {
+      label: 'Open Price Future Prediction',
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(255,0,0,1.0)",
+      borderColor: "rgba(255,0,0,0.5)",
+      data: futureOpenValue,
+      borderDash: [5, 5]
+    },
+    {
+      label: 'Close Price Past Value',
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,255,0,1.0)",
+      borderColor: "rgba(0,255,0,0.5)",
+      data: pastCloseValue
+    },
+    {
+      label: 'Close Price Future Prediction',
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,255,0,1.0)",
+      borderColor: "rgba(0,255,0,0.5)",
+      data: futureCloseValue,
+      borderDash: [5, 5]
+    },
+    {
+      label: 'High Price Past Value',
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "rgba(0,0,255,0.5)",
+      data: pastHighValue
+    },
+    {
+      label: 'High Price Future Prediction',
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,255,1.0)",
+      borderColor: "rgba(0,0,255,0.5)",
+      data: futureHighValue,
+      borderDash: [5, 5]
+    },
+    {
+      label: 'Low Price Past Value',
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,0,1.0)",
+      borderColor: "rgba(0,0,0,0.5)",
+      data: pastLowValue
+    },
+    {
+      label: 'Low Price Future Prediction',
+      fill: false,
+      lineTension: 0,
+      backgroundColor: "rgba(0,0,0,1.0)",
+      borderColor: "rgba(0,0,0,0.5)",
+      data: futureLowValue,
+      borderDash: [5, 5]
     }
   ]
   },

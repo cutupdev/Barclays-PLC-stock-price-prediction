@@ -2,8 +2,6 @@ import yfinance as yf
 from datetime import datetime, timedelta
 import pandas as pd
 
-symbol = 'BARC.L'
-
 
 
 def get_data(symbol, path):
