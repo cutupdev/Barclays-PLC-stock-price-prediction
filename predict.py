@@ -3,29 +3,38 @@ from tensorflow import keras
 from datetime import datetime, timedelta
 import csv
 import value_scaler
+from glo_variable import TARGET_OPEN, TARGET_HIGH, TARGET_CLOSE, TARGET_LOW
 
 
 
 def predict(target, past, future, std_path, data_path):
 
-    open_price, close_price, high_price, low_price, volume = value_scaler.value_scale(data_path, std_path)
+    open_price, high_price, low_price, close_price, volume = value_scaler.value_scale(data_path, std_path)
+
+    past_value = np.zeros((past,))
 
     # Load saved data
     with open(std_path, newline='') as csvfile:
         mean_std = csv.DictReader(csvfile)
         for row in mean_std:
-            if target == 'close':
+            if target == TARGET_CLOSE:
                 convert_mean = float(row['close_mean'])
                 convert_std = float(row['close_std'])
-            elif target == 'high':
+                past_value = close_price[-past:]
+            elif target == TARGET_HIGH:
                 convert_mean = float(row['high_mean'])
                 convert_std = float(row['high_std'])
-            elif target == 'low':
+                past_value = high_price[-past:]
+            elif target == TARGET_LOW:
                 convert_mean = float(row['low_mean'])
                 convert_std = float(row['low_std'])
-            else:
+                past_value = low_price[-past:]
+            elif target == TARGET_OPEN:
                 convert_mean = float(row['open_mean'])
                 convert_std = float(row['open_std'])
+                past_value = open_price[-past:]
+            else:
+                pass
     
     length = len(high_price[:]) # Total data length
     input_data = np.zeros((length, 5)) # Input data
@@ -38,14 +47,16 @@ def predict(target, past, future, std_path, data_path):
         input_data[i, 2] = low_price[i] 
         input_data[i, 3] = close_price[i]
         input_data[i, 4] = volume[i]
-        if target == 'close':
+        if target == TARGET_CLOSE:
             target_data[i] = close_price[i]
-        elif target == 'high':
+        elif target == TARGET_HIGH:
             target_data[i] = high_price[i]
-        elif target == 'low':
+        elif target == TARGET_LOW:
             target_data[i] = low_price[i]
-        else:
+        elif target == TARGET_OPEN:
             target_data[i] = open_price[i]
+        else:
+            pass
 
     model = keras.models.load_model("models/" + target + ".keras") # Model load 
 
@@ -63,8 +74,6 @@ def predict(target, past, future, std_path, data_path):
         real_predict = predict_value * convert_std + convert_mean
         predicts[x] = real_predict
 
-    past_value = np.zeros((past,))
-    past_value = open_price[-past:]
     past_value = past_value * convert_std + convert_mean
 
     return past_value, predicts

@@ -1,6 +1,7 @@
 import numpy as np
 from tensorflow import keras
 import value_scaler
+from glo_variable import TARGET_OPEN, TARGET_HIGH, TARGET_CLOSE, TARGET_LOW
 
 
 
@@ -19,14 +20,16 @@ def generate(past, future, target, data_path, std_path):
         train_data[i, 2] = low_price[i] 
         train_data[i, 3] = close_price[i] 
         train_data[i, 4] = volume[i]
-        if target == 'close':
+        if target == TARGET_CLOSE:
             target_data[i] = close_price[i]
-        elif target == 'high':
+        elif target == TARGET_HIGH:
             target_data[i] = high_price[i]
-        elif target == 'low':
+        elif target == TARGET_LOW:
             target_data[i] = low_price[i]
-        else:
+        elif target == TARGET_OPEN:
             target_data[i] = open_price[i]
+        else: 
+            pass
 
     # Dataset generation parameters
     sampling_rate = 1

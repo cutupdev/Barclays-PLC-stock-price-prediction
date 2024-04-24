@@ -1,12 +1,13 @@
 
 import data_collect
+import value_scaler
 import schedule
 import threading
 import time
 from datetime import datetime
 from datetime import time as tm
 import train
-from app import PAST, FUTURE, DATA_PATH, STD_PATH, SYMBOL
+from glo_variable import PAST, FUTURE, DATA_PATH, STD_PATH, SYMBOL, TARGET_OPEN, TARGET_HIGH, TARGET_CLOSE, TARGET_LOW
 
 
 
@@ -37,11 +38,15 @@ def daily_update():
 
 
 def model_update():
+
+    print('Mean, std value re-calculate!')
+    value_scaler.calculate_std(DATA_PATH, STD_PATH)
+
     print('Model update started!')
-    train.train(PAST, FUTURE, 'open', DATA_PATH, STD_PATH)
-    train.train(PAST, FUTURE, 'high', DATA_PATH, STD_PATH)
-    train.train(PAST, FUTURE, 'low', DATA_PATH, STD_PATH)
-    train.train(PAST, FUTURE, 'close', DATA_PATH, STD_PATH)
+    train.train(PAST, FUTURE, TARGET_OPEN, DATA_PATH, STD_PATH)
+    train.train(PAST, FUTURE, TARGET_HIGH, DATA_PATH, STD_PATH)
+    train.train(PAST, FUTURE, TARGET_LOW, DATA_PATH, STD_PATH)
+    train.train(PAST, FUTURE, TARGET_CLOSE, DATA_PATH, STD_PATH)
     
 
 
@@ -50,8 +55,8 @@ schedule.every().day.at("18:00").do(daily_update)
 
 
 # Schedule the weekly update of datasets to run every week
-schedule.every().monday.at("11:13").do(model_update)
-
+# schedule.every().monday.at("23:22").do(model_update)
+schedule.every().day.at("19:00").do(model_update)
 
 # Start a thread to run the scheduled tasks
 schedule_thread = threading.Thread(target=run_schedule)
