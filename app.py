@@ -1,15 +1,6 @@
 from flask import * 
 import predict
-
-PAST = 20
-FUTURE = 5
-DATA_PATH = 'datasets/barc.csv'
-STD_PATH = 'datasets/financial_data.csv'
-SYMBOL = 'BARC.L'
-TARGET_OPEN = 'open'
-TARGET_HIGH = 'high'
-TARGET_LOW = 'low'
-TARGET_CLOSE = 'close'
+from glo_variable import PAST, FUTURE, DATA_PATH, STD_PATH, TARGET_OPEN, TARGET_HIGH, TARGET_LOW, TARGET_CLOSE
 
 
 

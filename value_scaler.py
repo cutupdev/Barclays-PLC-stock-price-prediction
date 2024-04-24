@@ -90,6 +90,8 @@ def calculate_std(data_path, std_path):
         # Write the data
         writer.writerow(data)
 
+        print("Mean, std value calculated!")
+
 
 
 def get_value(data_path):
@@ -106,9 +108,9 @@ def get_value(data_path):
 
     # Series variables
     open_price = np.zeros((len(lines),))
-    close_price = np.zeros((len(lines),))
     high_price = np.zeros((len(lines),))
     low_price = np.zeros((len(lines),))
+    close_price = np.zeros((len(lines),))
     volume = np.zeros((len(lines),))
 
     # Train data extraction
@@ -119,6 +121,7 @@ def get_value(data_path):
         low_price[i] = values[2] 
         close_price[i] = values[3] 
         volume[i] = values[4]
+
     return open_price, high_price, low_price, close_price, volume
 
 
@@ -141,7 +144,3 @@ def get_dateframe(data_path):
         dateframe.append(line.split(",")[0])
 
     return dateframe
-
-
-
-calculate_std('datasets/barc.csv', 'datasets/financial_data.csv')
