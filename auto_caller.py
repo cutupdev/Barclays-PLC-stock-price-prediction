@@ -26,8 +26,8 @@ def daily_update():
     current_date = datetime.now().date()
 
     # Define the start and end time for the data collection window
-    start_time = tm(6, 0)  # 6 AM
-    end_time = tm(18, 0)  # 6 PM
+    start_time = tm(0, 0)  # 6 AM
+    end_time = tm(23, 59)  # 6 PM
 
     # Create the start and end datetime instances for today
     start_datetime = datetime.combine(current_date, start_time)
