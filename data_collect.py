@@ -10,7 +10,7 @@ def get_data(symbol, path):
     stock = yf.Ticker(symbol)
     
     today = datetime.today()
-    startdate = today - timedelta(days=5900)
+    startdate = today - timedelta(days=7800)
     yesterday = today - timedelta(days=1)
 
     # Get historical market data for Barclays PLC
@@ -57,3 +57,5 @@ def update(start_datetime, end_datetime, symbol, file_path):
         except FileNotFoundError:
             data.to_csv(file_path, mode='w', header=True, index=False)
             print("CSV file created with new data.")
+
+get_data('BARC.L', 'test.csv')
