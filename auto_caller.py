@@ -56,7 +56,7 @@ schedule.every().day.at("10:00").do(daily_update)
 
 # Schedule the weekly update of datasets to run every week
 # schedule.every().monday.at("23:22").do(model_update)
-schedule.every().day.at("10:30").do(model_update)
+schedule.every().day.at("19:00").do(model_update)
 
 # Start a thread to run the scheduled tasks
 schedule_thread = threading.Thread(target=run_schedule)
