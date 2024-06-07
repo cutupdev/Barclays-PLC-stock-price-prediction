@@ -51,7 +51,7 @@ def model_update():
 
 
 # Schedule the daily update of datasets to run every day at 6 PM
-schedule.every().day.at("18:00").do(daily_update)
+schedule.every().day.at("10:00").do(daily_update)
 
 
 # Schedule the weekly update of datasets to run every week
